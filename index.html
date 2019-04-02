@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>GreenCoop Bemondo</title>
+</head>
+
+<body>
+  <div class="wrapper">
+    <button class="box" id="button_1">Start</button>
+    <button class="box" id="button_2">Stop</button>
+    <button class="box" id="button_3">Szemet</button>
+    <button class="box" id="button_4">Talca</button>
+    <button class="box" id="button_5">Szunet</button>
+
+  </div>
+</body>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script type="text/javascript">
+  $("#button_1").click(() => {
+    $.get("/start", () => {})
+  })
+
+  $("#button_2").click(() => {
+    $.get("/stop", () => {})
+  })
+
+  $("#button_3").click(() => {
+    $.get("/trash", () => {})
+  })
+
+  $("#button_4").click(() => {
+    $.get("/container", () => {})
+  })
+  $("#button_5").click(() => {
+    $.get("/szunet", () => {})
+  })
+</script>
+
+<style>
+  html,
+  body {
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+  .wrapper {
+    margin: auto;
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+    grid-gap: 10px;
+    background-color: #fff;
+    color: #444;
+    width: 85%
+  }
+
+  .box {
+    background-color: #444;
+    color: #fff;
+    border-radius: 5px;
+    padding: 10rem;
+    font-size: 150%;
+    width: 100%
+  }
+
+  #button_1 {
+    background-color: green;
+  }
+
+  #button_2 {
+    background-color: red
+  }
+  #button_3 {
+    background-color: grey
+  }
+  #button_4 {
+    background-color: blue
+  }
+  #button_5{
+    background-color: yellow
+  }
+</style>
+
+</html>
