@@ -3,7 +3,7 @@ const player = require('node-wav-player')
 const path = require("path")
 
 const app = express()
-const port = 80
+const port = 3000
 
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '.', 'index.html'));
@@ -11,7 +11,7 @@ app.get('/', (req, res) => {
 
 app.get('/start', (req, res) => {
   player.play({
-    path: './sounds/start.wav',
+    path: './sounds/hu/start.wav',
   }).then((params) => {
     res.send("done")
   }).catch(() => {
