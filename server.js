@@ -6,8 +6,9 @@ const app = express()
 const port = 3000
 
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '.', 'index.html'));
+  res.sendFile(path.join(__dirname, '.', 'res/index.html'));
 })
+app.use(express.static('res'));
 
 let languages = {
   hu : true,
@@ -32,7 +33,7 @@ app.get('/start', async (req, res) => {
   }
 })
 
-app.get('/stop', (req, res) => {
+app.get('/stop', async(req, res) => {
   if(languages.hu){
     await player.play({path: "./sounds/hu/stop.wav",sync: true})
     await timeout()
@@ -47,7 +48,7 @@ app.get('/stop', (req, res) => {
   }
 })
 
-app.get('/trash', (req, res) => {
+app.get('/trash', async (req, res) => {
   if(languages.hu){
     await player.play({path: "./sounds/hu/trash.wav",sync: true})
     await timeout()
@@ -62,7 +63,7 @@ app.get('/trash', (req, res) => {
   }
 })
 
-app.get('/container', (req, res) => {
+app.get('/container', async (req, res) => {
   if(languages.hu){
     await player.play({path: "./sounds/hu/cont.wav",sync: true})
     await timeout()
@@ -77,7 +78,7 @@ app.get('/container', (req, res) => {
   }
 })
 
-app.get('/szunet', (req, res) => {
+app.get('/szunet', async (req, res) => {
   if(languages.hu){
     await player.play({path: "./sounds/hu/pause.wav",sync: true})
     await timeout()
@@ -90,6 +91,11 @@ app.get('/szunet', (req, res) => {
     await player.play({path: "./sounds/ro/pause.wav",sync: true})
     await timeout()
   }
+})
+
+app.get('/setLanguage',(req,res) => {
+
+
 })
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))

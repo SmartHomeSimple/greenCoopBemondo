@@ -6,15 +6,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>GreenCoop Bemondo</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
+  <div class="topnav">
+    <img src="logo.png" alt="">
+    <a class="active" href="#home">Home</a>
+    <a href="#news">News</a>
+    <a href="#contact">Contact</a>
+    <a href="#about">About</a>
+  </div>
   <div class="wrapper">
     <button class="box" id="button_1">Start</button>
     <button class="box" id="button_2">Stop</button>
     <button class="box" id="button_3">Szemet</button>
     <button class="box" id="button_4">Talca</button>
     <button class="box" id="button_5">Szunet</button>
+    <!-- <button class="box" id="button_6">Szunet</button> -->
 
   </div>
 </body>
@@ -39,49 +48,9 @@
   $("#button_5").click(() => {
     $.get("/szunet", () => {})
   })
+  // $("#button_6").click(() => {
+  // })
 </script>
 
-<style>
-  html,
-  body {
-    max-width: 100%;
-    overflow-x: hidden;
-  }
-  .wrapper {
-    margin: auto;
-    display: grid;
-    grid-template-columns: auto auto auto auto;
-    grid-gap: 10px;
-    background-color: #fff;
-    color: #444;
-    width: 85%
-  }
-
-  .box {
-    background-color: #444;
-    color: #fff;
-    border-radius: 5px;
-    padding: 10rem;
-    font-size: 150%;
-    width: 100%
-  }
-
-  #button_1 {
-    background-color: green;
-  }
-
-  #button_2 {
-    background-color: red
-  }
-  #button_3 {
-    background-color: grey
-  }
-  #button_4 {
-    background-color: blue
-  }
-  #button_5{
-    background-color: yellow
-  }
-</style>
 
 </html>
