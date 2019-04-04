@@ -11,157 +11,36 @@ app.get('/', (req, res) => {
 })
 app.use(express.static('res'));
 
+let block = false;
+let blockTimeout;
 
 let languages = {
-  hu: true,
+  hu: false,
   sk: true,
-  ro: true
+  ro: false
 }
-1
-let speakDelay = 2000;
 
-app.get('/start', async (req, res) => {
-  res.sendStatus(200);
-  await player.play({
-    path: "./sounds/debug.wav",
-    sync: true
-  })
-  if (languages.hu) {
-    await player.play({
-      path: "./sounds/hu/start.wav",
-      sync: true
-    })
-    await timeout()
-  }
-  if (languages.sk) {
-    await player.play({
-      path: "./sounds/sk/start.wav",
-      sync: true
-    })
-    await timeout()
-  }
-  if (languages.ro) {
-    await player.play({
-      path: "./sounds/ro/start.wav",
-      sync: true
-    })
-    await timeout()
-  }
+app.get('/start', (req, res) => {
+  blockAndPlay("start.wav", res);
 })
 
-app.get('/stop', async (req, res) => {
-  await player.play({
-    path: "./sounds/debug.wav",
-    sync: true
-  })
-  if (languages.hu) {
-    await player.play({
-      path: "./sounds/hu/stop.wav",
-      sync: true
-    })
-    await timeout()
-  }
-  if (languages.sk) {
-    await player.play({
-      path: "./sounds/sk/stop.wav",
-      sync: true
-    })
-    await timeout()
-  }
-  if (languages.ro) {
-    await player.play({
-      path: "./sounds/ro/stop.wav",
-      sync: true
-    })
-    await timeout()
-  }
+app.get('/stop', (req, res) => {
+  blockAndPlay("stop.wav", res);
+
 })
 
-app.get('/trash', async (req, res) => {
-  await player.play({
-    path: "./sounds/debug.wav",
-    sync: true
-  })
-
-  if (languages.hu) {
-    await player.play({
-      path: "./sounds/hu/trash.wav",
-      sync: true
-    })
-    await timeout()
-  }
-  if (languages.sk) {
-    await player.play({
-      path: "./sounds/sk/trash.wav",
-      sync: true
-    })
-    await timeout()
-  }
-  if (languages.ro) {
-    await player.play({
-      path: "./sounds/ro/trash.wav",
-      sync: true
-    })
-    await timeout()
-  }
+app.get('/trash', (req, res) => {
+  console.log(block)
+  blockAndPlay("trash.wav", res);
 })
 
-app.get('/container', async (req, res) => {
-  await player.play({
-    path: "./sounds/debug.wav",
-    sync: true
-  })
+app.get('/container', (req, res) => {
+  blockAndPlay("cont.wav", res);
 
-  if (languages.hu) {
-    await player.play({
-      path: "./sounds/hu/cont.wav",
-      sync: true
-    })
-    await timeout()
-  }
-  if (languages.sk) {
-    await player.play({
-      path: "./sounds/sk/cont.wav",
-      sync: true
-    })
-    await timeout()
-  }
-  if (languages.ro) {
-    await player.play({
-      path: "./sounds/ro/cont.wav",
-      sync: true
-    })
-    await timeout()
-  }
 })
 
-app.get('/pause', async (req, res) => {
-  await player.play({
-    path: "./sounds/debug.wav",
-    sync: true
-  })
-
-  if (languages.hu) {
-    await player.play({
-      path: "./sounds/hu/pause.wav",
-      sync: true
-    })
-    await timeout()
-  }
-  if (languages.sk) {
-    await player.play({
-      path: "./sounds/sk/pause.wav",
-      sync: true
-    })
-    await timeout()
-  }
-  if (languages.ro) {
-    await player.play({
-      path: "./sounds/ro/pause.wav",
-      sync: true
-    })
-    await timeout()
-  }
+app.get('/pause', (req, res) => {
+  blockAndPlay("pause.wav", res);
 })
 
 app.get('/setLanguage', (req, res) => {
@@ -170,6 +49,49 @@ app.get('/setLanguage', (req, res) => {
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
 
-function timeout() {
-  return new Promise(resolve => setTimeout(resolve, speakDelay));
+let timeout = (delay) => {
+  return new Promise(resolve => setTimeout(resolve, delay));
+}
+
+let blockAndPlay = (file, res) => {
+  if (!block) {
+    res.sendStatus(200);
+    block = true;
+    blockTimeout = setTimeout((params) => {
+      block = false;
+    }, 8000)
+    playSounds(file, languages)
+  } else {
+    res.sendStatus(403)
+  }
+}
+
+let playSounds = async (fileEnding, lang) => {
+  await player.play({
+    path: "./sounds/debug.wav",
+    sync: true
+  })
+  if (lang.hu) {
+    await player.play({
+      path: "./sounds/hu/" + fileEnding,
+      sync: true
+    })
+    await timeout(2000)
+  }
+  if (lang.sk) {
+    await player.play({
+      path: "./sounds/sk/" + fileEnding,
+      sync: true
+    })
+    await timeout(2000)
+  }
+  if (lang.ro) {
+    await player.play({
+      path: "./sounds/ro/" + fileEnding,
+      sync: true
+    })
+    await timeout(2000)
+  }
+  clearTimeout(blockTimeout)
+  block = false;
 }
