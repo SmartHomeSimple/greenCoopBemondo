@@ -72,6 +72,14 @@ void makeRequest(String url) {
     http.end();
   }
 }
+void readPinMakeRequest(String url, int pin, int delayTime) {
+  if (digitalRead(pin) == 0) {
+    delay(delayTime);
+    if (digitalRead(pin) == 0) {
+      makeRequest(url);
+    }
+  }
+}
 
 void setup() {
   pinMode(14, INPUT_PULLUP);
@@ -106,19 +114,9 @@ void setup() {
 void loop() {
   server.handleClient();
 
-  if (digitalRead(5) == 0) {
-    makeRequest("http://" + serverIp + "/start");
-  }
-  if (digitalRead(4) == 0) {
-    makeRequest("http://" + serverIp + "/stop");
-  }
-  if (digitalRead(14) == 0) {
-    makeRequest("http://" + serverIp + "/pause");
-  }
-  if (digitalRead(12) == 0) {
-    makeRequest("http://" + serverIp + "/container");
-  }
-  if (digitalRead(13) == 0) {
-    makeRequest("http://" + serverIp + "/trash");
-  }
+  readPinMakeRequest("http://" + serverIp + "/start", 5, 50);
+  readPinMakeRequest("http://" + serverIp + "/stop", 4, 50);
+  readPinMakeRequest("http://" + serverIp + "/pause", 14, 50);
+  readPinMakeRequest("http://" + serverIp + "/container", 12, 50);
+  readPinMakeRequest("http://" + serverIp + "/trash", 13, 50);
 }

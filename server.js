@@ -1,3 +1,4 @@
+//TODO: Implement blocking of requests to prevent playing multiple times 
 const express = require('express')
 const player = require('node-wav-player')
 const path = require("path")
@@ -10,15 +11,17 @@ app.get('/', (req, res) => {
 })
 app.use(express.static('res'));
 
+
 let languages = {
   hu: true,
   sk: true,
   ro: true
 }
-
+1
 let speakDelay = 2000;
 
 app.get('/start', async (req, res) => {
+  res.sendStatus(200);
   await player.play({
     path: "./sounds/debug.wav",
     sync: true
