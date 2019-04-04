@@ -6,13 +6,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>GreenCoop Bemondo</title>
+  <link rel="shortcut icon" href="http://greencoop.co/img/favicons/android-fav.png" type="image/x-icon">
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
   <div class="topnav">
     <img src="logo.png" alt="">
-    <h1>Hangosbemondo</h1>
+    <h1>Nénike 2.0</h1>
   </div>
   <div class="wrapper">
     <button class="box" id="button_1">Start</button>
@@ -30,23 +31,37 @@
   $("#button_1").click(() => {
     $.get("/start", () => {})
   })
-
   $("#button_2").click(() => {
-    $.get("/stop", () => {})
+    $.get("/stop")
   })
-
   $("#button_3").click(() => {
-    $.get("/trash", () => {})
+    $.get("/container")
   })
-
   $("#button_4").click(() => {
-    $.get("/container", () => {})
+    $.get("/container")
   })
   $("#button_5").click(() => {
-    $.get("/szunet", () => {})
+    $.get("/pause")
   })
-  // $("#button_6").click(() => {
-  // })
+
+
+  document.onkeydown = checkKey;
+
+  function checkKey(e) {
+    e = e || window.event;
+    if (e.keyCode == '49') {
+      $.get("/start")
+    } else if (e.keyCode == '50') {
+      $.get("/stop")
+    } else if (e.keyCode == '51') {
+      $.get("/container")
+    } else if (e.keyCode == '52') {
+      $.get("/container")
+    } else if (e.keyCode == '53') {
+      $.get("/pause")
+    } else if (e.keyCode == '54') {}
+
+  }
 </script>
 
 

@@ -1,3 +1,9 @@
+// D1(5) -> Start
+// D2(4) -> Stop
+// D5(14) -> Pause
+// D6(12) -> Container
+// D7(13) -> Trash
+
 #include <DNSServer.h>
 #include <ESP8266HTTPClient.h>
 #include <ESP8266WebServer.h>
@@ -8,7 +14,7 @@
 Ticker ticker;
 ESP8266WebServer server(80);
 HTTPClient http;
-String serverIp = "192.168.1.18";  // TODO: UPDATE THIS AFTER BEFOR RELEASE
+String serverIp = "192.168.1.11";  // TODO: UPDATE THIS AFTER BEFOR RELEASE
 
 void tick() {
   // toggle state
@@ -35,9 +41,11 @@ void handleRoot() {
       "Server Ip</title></head><body> <div class='container'> <form "
       "action='handle-ip'> <div class='row'> <div class='col-25'> <label "
       "for='ip'>Server IP</label> </div> <input id='ip' name='ip' "
-      "placeholder='0.0.0.0' required pattern='^([0-9]{1,3}\.){3}[0-9]{1,3}$'> "
-      "</div> <br> <div class='row'> <input type='submit' value='Submit'> "
-      "</div> </form> </div></body></html>");
+      "placeholder='" +
+          serverIp +
+          "' required pattern='^([0-9]{1,3}\.){3}[0-9]{1,3}$'> "
+          "</div> <br> <div class='row'> <input type='submit' value='Submit'> "
+          "</div> </form> </div></body></html>");
 }
 
 void handleIp() {
@@ -97,11 +105,6 @@ void setup() {
 
 void loop() {
   server.handleClient();
-  // D1(5) -> Start
-  // D2(4) -> Stop
-  // D5(14) -> Pause
-  // D6(12) -> Container
-  // D7(13) -> Trash
 
   if (digitalRead(5) == 0) {
     makeRequest("http://" + serverIp + "/start");
@@ -110,7 +113,7 @@ void loop() {
     makeRequest("http://" + serverIp + "/stop");
   }
   if (digitalRead(14) == 0) {
-     makeRequest("http://" + serverIp + "/pause");
+    makeRequest("http://" + serverIp + "/pause");
   }
   if (digitalRead(12) == 0) {
     makeRequest("http://" + serverIp + "/container");

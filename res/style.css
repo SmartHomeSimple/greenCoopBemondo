@@ -7,13 +7,12 @@ body{
   background-color: #39ABBC;
 }
 
-
 img{
   height: inherit;
 }
 .topnav {
 overflow: hidden;
-background-color: rgb(209, 209, 209);
+background-color: white;
 height: 50px;
 
 }
@@ -35,9 +34,10 @@ text-align: center;
 }
 
 .topnav h1{
-color: #f2f2f2;
+color: BLACK;
 text-align: center;
-align-self: center;
+float: right;
+margin: auto;
 }
 
 .box {
