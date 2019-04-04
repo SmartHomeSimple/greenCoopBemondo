@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Set Speaker Server Ip</title>
+</head>
+
+<body>
+  <div class="container">
+    <form action="handle-ip">
+      <div class="row">
+        <div class="col-25">
+          <label for="ip">Server IP</label>
+        </div>
+        <input id="ip" name="ip" placeholder="0.0.0.0" required pattern="^([0-9]{1,3}\.){3}[0-9]{1,3}$">
+      </div>
+      <br>
+      <div class="row">
+        <input type="submit" value="Submit">
+      </div>
+    </form>
+  </div>
+  <style>
+    label {
+      padding: 12px 12px 12px 0;
+      display: inline-block;
+    }
+    input[type=submit] {
+      background-color: #4CAF50;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      float: right;
+      width: 100%;
+    }
+    input[type=number] {
+      width: 100%;
+      height: 50%;
+    }
+    .container {
+      border-radius: 5px;
+      background-color: #f2f2f2;
+      padding: 20px;
+    }
+    .row:after {
+      content: "";
+      display: table;
+      clear: both;
+    }
+  </style>
+</body>
+
+</html>
