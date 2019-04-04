@@ -14,7 +14,8 @@
 Ticker ticker;
 ESP8266WebServer server(80);
 HTTPClient http;
-String serverIp = "192.168.1.11";  // TODO: UPDATE THIS AFTER BEFOR RELEASE
+//TODO: DO NOT FORGET TO IMPLEMENT PROPER IP
+String serverIp = "192.168.1.181";  
 
 void tick() {
   // toggle state

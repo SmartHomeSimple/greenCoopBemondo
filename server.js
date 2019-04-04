@@ -1,4 +1,3 @@
-//TODO: Implement blocking of requests to prevent playing multiple times 
 const express = require('express')
 const player = require('node-wav-player')
 const path = require("path")
@@ -15,9 +14,9 @@ let block = false;
 let blockTimeout;
 
 let languages = {
-  hu: false,
+  hu: true,
   sk: true,
-  ro: false
+  ro: true
 }
 
 app.get('/start', (req, res) => {
@@ -44,7 +43,7 @@ app.get('/pause', (req, res) => {
 })
 
 app.get('/setLanguage', (req, res) => {
-  //TODO: Implement feature
+  //TODO: Implement setLanguage feature 
 })
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
