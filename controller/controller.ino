@@ -188,6 +188,7 @@ void loop() {
     }
   }
   if (digitalRead(14) == 0) {
+    Serial.println("PAUSEPRESSED!");
     if (http.begin("http://" + serverIp + "/pause")) {
       int httpCode = http.GET();
 

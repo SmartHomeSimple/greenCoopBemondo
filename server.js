@@ -78,7 +78,7 @@ app.get('/container', async (req, res) => {
   }
 })
 
-app.get('/szunet', async (req, res) => {
+app.get('/pause', async (req, res) => {
   if(languages.hu){
     await player.play({path: "./sounds/hu/pause.wav",sync: true})
     await timeout()
