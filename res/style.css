@@ -7,22 +7,6 @@ body{
   background-color: #39ABBC;
 }
 
-img{
-  height: inherit;
-}
-.topnav {
-overflow: hidden;
-background-color: white;
-height: 50px;
-
-}
-.topnav .logo{
-float: left;
-color: #f2f2f2;
-text-align: center;
-
-}
-
 .wrapper {
   margin: auto;
   margin-top: 1vh;
@@ -31,13 +15,6 @@ text-align: center;
   grid-gap: 10px;
   color: #444;
   width: 85%
-}
-
-.topnav h1{
-color: BLACK;
-text-align: center;
-float: right;
-margin: auto;
 }
 
 .box {
@@ -77,4 +54,41 @@ margin: auto;
 
 #button_5 {
   background-color: #ffa000;
+}
+
+.nav {
+  display: flex;
+  min-height: 65px;
+  height: 65px;
+  align-items: center;
+}
+
+.left, .middle, .right {
+  flex: 1;
+  background-color: white;
+  height: 100%;
+}
+
+.middle {
+  text-align: center;
+}
+.right {
+  text-align: right;
+}
+.logo {
+  /* width: 40px;
+  height: 40px; */
+}
+.item {
+  margin-bottom: 0;
+  font-size: 20px;
+  padding: 16px;
+  display: inline-block;
+}
+.right img{
+  margin: 0;
+}
+
+.shaded{
+  filter: grayscale(80%);
 }

@@ -3,7 +3,7 @@ const player = require('node-wav-player')
 const path = require("path")
 
 const app = express()
-const port = 80
+const port = 3000 //TODO: CHANGE BACK TO 80 BEFORE DEPLOYMENT!
 
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '.', 'res/index.html'));
@@ -44,6 +44,10 @@ app.get('/pause', (req, res) => {
 
 app.get('/setLanguage', (req, res) => {
   //TODO: Implement setLanguage feature 
+})
+
+app.get('/getLanguage', (req,res) =>{ 
+  res.send(languages)
 })
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
