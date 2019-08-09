@@ -72,7 +72,7 @@ let blockAndPlay = (file, res) => {
 }
 
 let playSounds = async (fileEnding, lang) => {
-  switchTalk.write(1); 
+  switchTalk.write(0); 
   await player.play({
     path: "./sounds/debug.wav",
     sync: true
@@ -99,7 +99,7 @@ let playSounds = async (fileEnding, lang) => {
     await timeout(2000)
   }
 
-  switchTalk.write(0); 
+  switchTalk.write(1); 
 
   clearTimeout(blockTimeout)
   block = false;
