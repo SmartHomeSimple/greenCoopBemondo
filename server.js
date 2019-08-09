@@ -1,9 +1,11 @@
 const express = require('express')
 const player = require('node-wav-player')
 const path = require("path")
+const Gpio = require('orange-pi-gpio');
 
 const app = express()
-const port = 3000 //TODO: CHANGE BACK TO 80 BEFORE DEPLOYMENT!
+const port = 80
+
 
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '.', 'res/index.html'));
@@ -12,6 +14,7 @@ app.use(express.static('res'));
 
 let block = false;
 let blockTimeout;
+let switchTalk = new Gpio({pin:8});
 
 let languages = {
   hu: true,
@@ -29,12 +32,11 @@ app.get('/stop', (req, res) => {
 })
 
 app.get('/trash', (req, res) => {
-  console.log(block)
-  blockAndPlay("trash.wav", res);
+  blockAndPlay("login.wav", res);
 })
 
 app.get('/container', (req, res) => {
-  blockAndPlay("cont.wav", res);
+  blockAndPlay("logout.wav", res);
 
 })
 
@@ -70,6 +72,7 @@ let blockAndPlay = (file, res) => {
 }
 
 let playSounds = async (fileEnding, lang) => {
+  switchTalk.write(1); 
   await player.play({
     path: "./sounds/debug.wav",
     sync: true
@@ -95,6 +98,9 @@ let playSounds = async (fileEnding, lang) => {
     })
     await timeout(2000)
   }
+
+  switchTalk.write(0); 
+
   clearTimeout(blockTimeout)
   block = false;
 }
