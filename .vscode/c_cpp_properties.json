@@ -11,6 +11,20 @@
             "compilerPath": "/usr/bin/gcc",
             "cStandard": "c11",
             "cppStandard": "c++17"
+        },
+        {
+            "name": "Z-Uno2",
+            "includePath": [
+                "c:\\Users\\Sanyi.Mehes\\Documents\\Z-Uno\\Z-Uno2\\hardware\\cores\\**",
+                "c:\\Users\\Sanyi.Mehes\\Documents\\Z-Uno\\Z-Uno2\\hardware\\libraries\\**",
+                "c:\\Users\\Sanyi.Mehes\\Documents\\Z-Uno\\Z-Uno2\\tools\\gcc\\lib\\gcc\\arm-none-eabi\\7.2.1\\include\\**",
+                "c:\\Users\\Sanyi.Mehes\\Documents\\Z-Uno\\Z-Uno2\\tools\\inc\\**"
+            ],
+            "forcedInclude": [
+                "c:\\Users\\Sanyi.Mehes\\Documents\\Z-Uno\\Z-Uno2\\hardware\\cores\\includes\\Arduino.h"
+            ],
+            "intelliSenseMode": "gcc-arm",
+            "compilerPath": "c:\\Users\\Sanyi.Mehes\\Documents\\Z-Uno\\Z-Uno2\\tools\\gcc\\bin\\arm-none-eabi-gcc.exe"
         }
     ],
     "version": 4

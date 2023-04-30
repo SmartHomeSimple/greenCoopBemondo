@@ -1,56 +1,42 @@
 const express = require('express')
-const player = require('node-wav-player')
 const path = require("path")
-const Gpio = require('orange-pi-gpio');
+const sound = require("sound-play");
+const { NodeAudioVolumeMixer } = require("node-audio-volume-mixer");
 
 const app = express()
-const port = 80
+const port = 28001
+let audioSessionStates = []
+let audioQueue = []
 
+// NOTE: This variable is needed to prevent multiple sounds from playing at once
+let isPLaying = false;
 
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '.', 'res/index.html'));
-})
-app.use(express.static('res'));
-
-let block = false;
-let blockTimeout;
-let switchTalk = new Gpio({pin:8});
-
-let languages = {
-  hu: true,
-  sk: true,
-  ro: true
-}
-
-app.get('/start', (req, res) => {
-  blockAndPlay("start.wav", res);
+app.get('/breakending', (req, res) => {
+  addToQueueAndPlay("breakending.mp3", res);
 })
 
-app.get('/stop', (req, res) => {
-  blockAndPlay("stop.wav", res);
+app.get('/breakstarting', (req, res) => {
+  addToQueueAndPlay("breakstarting.mp3", res);
 
 })
 
-app.get('/trash', (req, res) => {
-  blockAndPlay("login.wav", res);
+app.get('/login', (req, res) => {
+  addToQueueAndPlay("login.mp3", res);
 })
 
-app.get('/container', (req, res) => {
-  blockAndPlay("logout.wav", res);
+app.get('/logout', (req, res) => {
+  addToQueueAndPlay("logout.mp3",);
 
 })
 
-app.get('/pause', (req, res) => {
-  blockAndPlay("pause.wav", res);
+app.get('/startmeasure', (req, res) => {
+  addToQueueAndPlay("startmeasure.mp3", res);
 })
 
-app.get('/setLanguage', (req, res) => {
-  //TODO: Implement setLanguage feature 
+app.get('/stopmeasure', (req, res) => {
+  addToQueueAndPlay("stopmeasure.mp3", res);
 })
 
-app.get('/getLanguage', (req,res) =>{ 
-  res.send(languages)
-})
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
 
@@ -58,49 +44,55 @@ let timeout = (delay) => {
   return new Promise(resolve => setTimeout(resolve, delay));
 }
 
-let blockAndPlay = (file, res) => {
-  if (!block) {
-    res.sendStatus(200);
-    block = true;
-    blockTimeout = setTimeout((params) => {
-      block = false;
-    }, 8000)
-    playSounds(file, languages)
-  } else {
-    res.sendStatus(403)
+let addToQueueAndPlay = (fileToPlay, res) => {
+  res.sendStatus(200)
+
+  audioQueue.push(fileToPlay);
+
+  if(isPLaying){
+    return
   }
+  playFromQueue()
 }
 
-let playSounds = async (fileEnding, lang) => {
-  switchTalk.write(0); 
-  await player.play({
-    path: "./sounds/debug.wav",
-    sync: true
+let playFromQueue = async () => {
+  if(audioQueue.length === 0){
+    return
+  }
+  let fileToPlay = audioQueue.shift();
+  await playFile(fileToPlay);
+  await timeout(1000);
+  await playFromQueue()
+}
+
+let playFile = async (fileToPlay) => {
+  isPLaying = true;
+  await lowerSessionVolumes()
+  await sound.play(path.join(__dirname, "sounds", fileToPlay));
+  await resetSessionVolumes()
+  isPLaying = false;
+}
+
+
+let lowerSessionVolumes = async () => {
+  const sessions = NodeAudioVolumeMixer.getAudioSessionProcesses();
+
+  audioSessionStates= sessions.map((session) => ({...session, volume: NodeAudioVolumeMixer.getAudioSessionVolumeLevelScalar(session.pid)}))
+  audioSessionStates.forEach((session) => {
+    try {
+      NodeAudioVolumeMixer.setAudioSessionVolumeLevelScalar(session.pid,0.1);
+    } catch (error) {
+      console.warn(error)
+    }
   })
-  if (lang.hu) {
-    await player.play({
-      path: "./sounds/hu/" + fileEnding,
-      sync: true
-    })
-    await timeout(2000)
-  }
-  if (lang.sk) {
-    await player.play({
-      path: "./sounds/sk/" + fileEnding,
-      sync: true
-    })
-    await timeout(2000)
-  }
-  if (lang.ro) {
-    await player.play({
-      path: "./sounds/ro/" + fileEnding,
-      sync: true
-    })
-    await timeout(2000)
-  }
+}
 
-  switchTalk.write(1); 
-
-  clearTimeout(blockTimeout)
-  block = false;
+let resetSessionVolumes = async () => {
+  audioSessionStates.forEach((session) => {
+    try{
+      NodeAudioVolumeMixer.setAudioSessionVolumeLevelScalar(session.pid,session.volume);
+    }catch(e){
+      console.warn(e)
+    }
+  })
 }
