@@ -1,7 +1,13 @@
 {
+  "scripts": {
+    "start": "node server.js",
+    "install": "node service-install.js",
+    "uninstall": "node service-uninstall.js"
+  },
   "dependencies": {
     "express": "^4.18.2",
     "node-audio-volume-mixer": "^1.0.3",
+    "node-windows": "^1.0.0-beta.8",
     "sound-play": "^1.1.0"
   }
 }
