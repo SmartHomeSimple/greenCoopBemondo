@@ -25,7 +25,7 @@ app.get('/login', (req, res) => {
 })
 
 app.get('/logout', (req, res) => {
-  addToQueueAndPlay("logout.mp3",);
+  addToQueueAndPlay("logout.mp3",res);
 
 })
 
